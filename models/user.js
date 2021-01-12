@@ -1,4 +1,5 @@
 let  mongoose = require("./../config/db")
+let jwt = require("jsonwebtoken")
 
 let mainAge = process.env.MAIN_AGE || 14;
 
@@ -14,6 +15,8 @@ let UserSchema = mongoose.Schema({
     start_at_namaz: { type: Date, required: true }, // yoshi
     start_at_fasting: { type: Date, required: true }, // ro'za yoshi
     // automatic
+    initial_namaz: { type: Number },
+    initial_fasting: { type: Number },
     total_namaz: { type: Number }, // rakatlar soni,
     total_fasting: { type: Number }, // ro'za kunlari soni
     bomdod: { type: Number }, 
@@ -26,7 +29,7 @@ let UserSchema = mongoose.Schema({
 })
   
 UserSchema.statics.generateAutomaticAttributes = function(user) {
-    let secondaryUser = { total_namaz: 0, total_fasting: 0,bomdod: 0,peshin: 0,asr: 0,shom: 0,xufton: 0,vitr: 0 }
+    let secondaryUser = { total_namaz: 0, total_fasting: 0,bomdod: 0,peshin: 0,asr: 0,shom: 0,xufton: 0,vitr: 0, initial_namaz: 0, initial_fasting: 0 }
     if( user.start_at_namaz > mainAge ){
         let totalYear = user.start_at_namaz - mainAge; 
 
@@ -45,6 +48,8 @@ UserSchema.statics.generateAutomaticAttributes = function(user) {
 
         secondaryUser.total_fasting = totalYear * 30;
     }
+    secondaryUser.initial_namaz = secondaryUser.total_namaz
+    secondaryUser.initial_fasting = secondaryUser.total_fasting
 
     return {readyUser: {...user,...secondaryUser}, secondaryUser}
 
@@ -66,6 +71,20 @@ UserSchema.statics.getUserInfo = function(a) {
     delete newUser.xufton
     delete newUser.vitr
     return newUser
+}
+
+UserSchema.statics.generateToken = function(user) {
+    let gUser = { phone: user.phone, password: user.password }
+
+    return jwt.sign(gUser, process.env.JWT_KEY)
+}
+
+UserSchema.statics.decodeToken = function (token) {
+    try {
+        return jwt.verify(token, process.env.JWT_KEY)
+    } catch (error) {
+        return undefined;
+    }
 }
  
 module.exports = mongoose.model('users', UserSchema )

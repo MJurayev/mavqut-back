@@ -25,7 +25,10 @@ module.exports.create = ( req,res ) => {
     newUser.save().then( async (r) => {
         let newRemnant = new Remnant({...secondaryUser, user_id: r._id })
         await newRemnant.save()
-        res.status(200).json(newRemnant)
+        
+        let token = User.generateToken(r) 
+        res.status(200).json({token});
+
     }).catch(e => new ErrorHandler(e,res) )
 
 }
@@ -50,13 +53,18 @@ module.exports.login = (req,res) => {
 
     User.findOne({ phone: body.phone, password: body.password }).then( (r) => {
         if( !r ) return new ErrorHandler("Access denied !", res)
-        let userInfo = User.getUserInfo(r) 
-        res.status(200).json(userInfo);
+        // let userInfo = User.getUserInfo(r)
+        let token = User.generateToken(r) 
+        res.status(200).json({token});
     }).catch(e => new ErrorHandler(e,res) )
 }
 
+module.exports.verify = (req, res) => {
+    res.status(200).json({ user_id: req.user_id })
+}
+
 module.exports.info = (req,res) => {
-    let id = req.params.id
+    let id = req.user_id
 
     User.findById(id).then((r) => {
         if( !r ) return new ErrorHandler("Access denied !", res)
