@@ -12,11 +12,17 @@ let UserSchema = mongoose.Schema({
     phone: { type: String, required: true , unique: true },
     password: { type: String, required: true  },
     avatar: { type: String },
-    start_at_namaz: { type: Date, required: true }, // yoshi
-    start_at_fasting: { type: Date, required: true }, // ro'za yoshi
+    start_at_namaz: { type: Number, required: true }, // yoshi
+    start_at_fasting: { type: Number, required: true }, // ro'za yoshi
     // automatic
-    initial_namaz: { type: Number },
-    initial_fasting: { type: Number },
+    initial_total_namaz: { type: Number },
+    initial_total_fasting: { type: Number },
+    initial_bomdod: { type: Number },
+    initial_peshin: { type: Number },
+    initial_asr: { type: Number },
+    initial_shom: { type: Number },
+    initial_xufton: { type: Number },
+    initial_vitr: { type: Number },
     total_namaz: { type: Number }, // rakatlar soni,
     total_fasting: { type: Number }, // ro'za kunlari soni
     bomdod: { type: Number }, 
@@ -48,8 +54,14 @@ UserSchema.statics.generateAutomaticAttributes = function(user) {
 
         secondaryUser.total_fasting = totalYear * 30;
     }
-    secondaryUser.initial_namaz = secondaryUser.total_namaz
-    secondaryUser.initial_fasting = secondaryUser.total_fasting
+    secondaryUser.initial_total_namaz = secondaryUser.total_namaz
+    secondaryUser.initial_total_fasting = secondaryUser.total_fasting
+    secondaryUser.initial_bomdod = secondaryUser.bomdod
+    secondaryUser.initial_peshin = secondaryUser.peshin
+    secondaryUser.initial_asr = secondaryUser.asr
+    secondaryUser.initial_shom = secondaryUser.shom
+    secondaryUser.initial_xufton = secondaryUser.xufton
+    secondaryUser.initial_vitr = secondaryUser.vitr
 
     return {readyUser: {...user,...secondaryUser}, secondaryUser}
 

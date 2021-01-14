@@ -6,6 +6,7 @@ module.exports = async function(req, res, next) {
         let token = authorization.split(' ')[1];
 
         let reqUser = User.decodeToken(token)
+        
         if (reqUser) {
 
             let user = await User.findOne({ phone: reqUser.phone , password: reqUser.password });
