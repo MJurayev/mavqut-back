@@ -4,6 +4,8 @@ let controller = require("./../controllers/daily")
 router.route('/')
     .post( controller.createDailyInfo )
 
+router.route('/user/getAll/:user_id')
+    .get( controller.getUserDailies )
 
 router.route('/info')
     .post( controller.getDailyInfo )

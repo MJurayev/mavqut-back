@@ -4,6 +4,7 @@ let Remnant = require("./../models/remnant")
 
 const cron = require('node-cron');
 const ErrorHandler = require("../utils/errorHandler");
+const user = require("./../models/user");
 
 module.exports.createDailyInfo = async ( req,res ) => { // kunlik roza malumotlarini kamaytira olmasligi shart !!!
     let body = req.body
@@ -85,4 +86,11 @@ module.exports.getAll = (req,res) => {
     Daily.find().then((result) => {
         res.status(200).json(result)
     })
+}
+
+module.exports.getUserDailies = (req,res) => {
+    let user_id = req.params.user_id
+    Daily.find({ user_id: user_id }).then((result) => {
+        res.status(200).json(result)
+    }).catch(e => new ErrorHandler( e , res))
 }

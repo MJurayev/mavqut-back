@@ -72,8 +72,6 @@ UserSchema.statics.getUserInfo = function(a) {
     let b = Object.assign({},a)
     let newUser = b._doc;
     delete newUser.password
-    delete newUser.start_at_namaz
-    delete newUser.start_at_fasting
     delete newUser.total_namaz
     delete newUser.total_fasting
     delete newUser.bomdod
