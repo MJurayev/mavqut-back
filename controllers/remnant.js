@@ -6,7 +6,7 @@ module.exports.create = ( req,res ) => {
 
 module.exports.getInfo = (req,res) => {
     let data = {}
-    Remnant.findOne({user_id:req.reqUser}).lean().then( async (result) => {
+    Remnant.findOne({user_id:req.user_id}).lean().then( async (result) => {
         let data = result
         let user = await User.findById(result.user_id)
         data.const_total_namaz = user.const_total_namaz
