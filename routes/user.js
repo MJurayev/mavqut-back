@@ -10,8 +10,8 @@ router.route('/')
 router.route('/verify')
     .get(CheckAuth, controller.verify );
 
-router.route('/:id')
-    .put( controller.update );
+router.route('/')
+    .put( CheckAuth, controller.update );
 
 router.route('/login')
     .post( controller.login );

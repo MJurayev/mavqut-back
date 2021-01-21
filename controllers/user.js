@@ -34,7 +34,7 @@ module.exports.create = ( req,res ) => {
 }
 
 module.exports.update = (req,res) => {
-    let id = ( req.params.id ).toString()
+    let id = req.user_id
     let body = req.body
 
     User.findByIdAndUpdate(id,{$set:body},{new:true}).then( (r) => {
