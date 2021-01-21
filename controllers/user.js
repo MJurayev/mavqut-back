@@ -1,6 +1,7 @@
 const ErrorHandler = require("../utils/errorHandler")
 let User = require("./../models/user")
 let Remnant = require("./../models/remnant")
+let Daily = require("./../models/daily")
 
 module.exports.create = ( req,res ) => {
 
@@ -25,6 +26,10 @@ module.exports.create = ( req,res ) => {
     newUser.save().then( async (r) => {
         let newRemnant = new Remnant({...secondaryUser, user_id: r._id })
         await newRemnant.save()
+
+        let newDaily = { user_id: r._id ,created_at: new Date(), bomdod: 0,peshin: 0,asr: 0,shom: 0,xufton: 0,vitr: 0, fasting: false };
+
+        await (new Daily(newDaily)).save()
         
         let token = User.generateToken(r) 
         res.status(200).json({token});

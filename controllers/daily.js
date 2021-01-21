@@ -9,8 +9,8 @@ const user = require("./../models/user");
 module.exports.createDailyInfo = async ( req,res ) => { // kunlik roza malumotlarini kamaytira olmasligi shart !!!
     let body = req.body
     
-    let currentData = await Daily.findOne({ user_id: body.user_id, '$where': 'this.created_at.toJSON().slice(0, 10) == "'+ (new Date( body.created_at )).toJSON().slice(0,10) +'"' })
-    let currentRemnantData = await Remnant.findOne({ user_id: body.user_id, '$where': 'this.created_at.toJSON().slice(0, 10) == "'+ (new Date( body.created_at )).toJSON().slice(0,10) +'"' })
+    let currentData = await Daily.findOne({ user_id: req.user_id, '$where': 'this.created_at.toJSON().slice(0, 10) == "'+ (new Date( body.created_at )).toJSON().slice(0,10) +'"' })
+    let currentRemnantData = await Remnant.findOne({ user_id: req.user_id, '$where': 'this.created_at.toJSON().slice(0, 10) == "'+ (new Date( body.created_at )).toJSON().slice(0,10) +'"' })
 
     let mustChangeData = {
         bomdod: body.bomdod,
@@ -22,7 +22,7 @@ module.exports.createDailyInfo = async ( req,res ) => { // kunlik roza malumotla
         fasting: body.fasting // boolean
     }
     await Daily.findOneAndUpdate(
-        { user_id: body.user_id, '$where': 'this.created_at.toJSON().slice(0, 10) == "'+ (new Date( body.created_at )).toJSON().slice(0,10) +'"' },
+        { user_id: req.user_id, '$where': 'this.created_at.toJSON().slice(0, 10) == "'+ (new Date( body.created_at )).toJSON().slice(0,10) +'"' },
         { $set: mustChangeData },{ new: true }).then( async (r) => {
         let remnantChangeData = {
             bomdod: currentRemnantData.bomdod - (body.bomdod - currentData.bomdod ),
@@ -40,7 +40,7 @@ module.exports.createDailyInfo = async ( req,res ) => { // kunlik roza malumotla
 
 
         await Remnant.findOneAndUpdate(
-            { user_id: body.user_id, '$where': 'this.created_at.toJSON().slice(0, 10) == "'+ (new Date( body.created_at )).toJSON().slice(0,10) +'"' },
+            { user_id: req.user_id, '$where': 'this.created_at.toJSON().slice(0, 10) == "'+ (new Date( body.created_at )).toJSON().slice(0,10) +'"' },
             { $set: remnantChangeData },{ new: true }).then((r) => {
                 
          res.status(200).json()
