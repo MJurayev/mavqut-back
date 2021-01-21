@@ -5,7 +5,7 @@ const CheckAuth = require("./../middlewares/check-auth")
 router.route('/')
     .post( controller.create );
 
-router.route('/info/:user_id')
+router.route('/info')
     .get( CheckAuth, controller.getInfo )    
 
 router.route('/getAll')
