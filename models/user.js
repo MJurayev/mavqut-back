@@ -15,14 +15,14 @@ let UserSchema = mongoose.Schema({
     start_at_namaz: { type: Number, required: true }, // yoshi
     start_at_fasting: { type: Number, required: true }, // ro'za yoshi
     // automatic
-    initial_total_namaz: { type: Number },
-    initial_total_fasting: { type: Number },
-    initial_bomdod: { type: Number },
-    initial_peshin: { type: Number },
-    initial_asr: { type: Number },
-    initial_shom: { type: Number },
-    initial_xufton: { type: Number },
-    initial_vitr: { type: Number },
+    const_total_namaz: { type: Number },
+    const_total_fasting: { type: Number },
+    const_bomdod: { type: Number },
+    const_peshin: { type: Number },
+    const_asr: { type: Number },
+    const_shom: { type: Number },
+    const_xufton: { type: Number },
+    const_vitr: { type: Number },
     total_namaz: { type: Number }, // rakatlar soni,
     total_fasting: { type: Number }, // ro'za kunlari soni
     bomdod: { type: Number }, 
@@ -35,7 +35,7 @@ let UserSchema = mongoose.Schema({
 })
   
 UserSchema.statics.generateAutomaticAttributes = function(user) {
-    let secondaryUser = { total_namaz: 0, total_fasting: 0,bomdod: 0,peshin: 0,asr: 0,shom: 0,xufton: 0,vitr: 0, initial_namaz: 0, initial_fasting: 0 }
+    let secondaryUser = { total_namaz: 0, total_fasting: 0,bomdod: 0,peshin: 0,asr: 0,shom: 0,xufton: 0,vitr: 0, const_namaz: 0, const_fasting: 0 }
     if( user.start_at_namaz > mainAge ){
         let totalYear = user.start_at_namaz - mainAge; 
 
@@ -54,14 +54,14 @@ UserSchema.statics.generateAutomaticAttributes = function(user) {
 
         secondaryUser.total_fasting = totalYear * 30;
     }
-    secondaryUser.initial_total_namaz = secondaryUser.total_namaz
-    secondaryUser.initial_total_fasting = secondaryUser.total_fasting
-    secondaryUser.initial_bomdod = secondaryUser.bomdod
-    secondaryUser.initial_peshin = secondaryUser.peshin
-    secondaryUser.initial_asr = secondaryUser.asr
-    secondaryUser.initial_shom = secondaryUser.shom
-    secondaryUser.initial_xufton = secondaryUser.xufton
-    secondaryUser.initial_vitr = secondaryUser.vitr
+    secondaryUser.const_total_namaz = secondaryUser.total_namaz
+    secondaryUser.const_total_fasting = secondaryUser.total_fasting
+    secondaryUser.const_bomdod = secondaryUser.bomdod
+    secondaryUser.const_peshin = secondaryUser.peshin
+    secondaryUser.const_asr = secondaryUser.asr
+    secondaryUser.const_shom = secondaryUser.shom
+    secondaryUser.const_xufton = secondaryUser.xufton
+    secondaryUser.const_vitr = secondaryUser.vitr
 
     return {readyUser: {...user,...secondaryUser}, secondaryUser}
 
