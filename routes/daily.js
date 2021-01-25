@@ -5,8 +5,8 @@ const CheckAuth = require("./../middlewares/check-auth")
 router.route('/')
     .post( CheckAuth, controller.createDailyInfo )
 
-router.route('/user/getAll/:user_id')
-    .get( controller.getUserDailies )
+router.route('/user/getAll')
+    .get( CheckAuth, controller.getUserDailies )
 
 router.route('/info')
     .post( controller.getDailyInfo )

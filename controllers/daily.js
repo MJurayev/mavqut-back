@@ -89,7 +89,7 @@ module.exports.getAll = (req,res) => {
 }
 
 module.exports.getUserDailies = (req,res) => {
-    let user_id = req.params.user_id
+    let user_id = req.user_id
     Daily.find({ user_id: user_id }).then((result) => {
         res.status(200).json(result)
     }).catch(e => new ErrorHandler( e , res))
