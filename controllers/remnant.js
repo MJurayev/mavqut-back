@@ -11,18 +11,18 @@ module.exports.create =async ( req,res ) => {
         }
     ])
     console.log(daily)
-    // if(!daily){
-    //     const dailyNew =  new Daily(req.body)
-    //     const saved = await dailyNew.save()
-    //     if(saved)return res.send({success:true})
-    // }else{
-    //     console.log(daily)
-    //     console.log(req.body)
-    //     const updated =await Daily.findByIdAndUpdate(daily._id, req.body, {new:true})
+    if(!daily){
+        const dailyNew =  new Daily(req.body)
+        const saved = await dailyNew.save()
+        if(saved)return res.send({success:true})
+    }else{
+        console.log(daily)
+        console.log(req.body)
+        const updated =await Daily.findByIdAndUpdate(daily._id, req.body, {new:true})
 
-    //     if(updated)res.send({success:true})
-    // }
-    //     return res.send({success:false})
+        if(updated)res.send({success:true})
+    }
+        return res.send({success:false})
 }
 
 module.exports.getInfo = (req,res) => {

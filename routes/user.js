@@ -17,7 +17,7 @@ router.route('/login')
     .post( controller.login );
 
 router.route('/info')
-    .get( CheckAuth, controller.info );
+    .get( controller.info );
 
 router.route('/getAll')
     .get( controller.getAll );
