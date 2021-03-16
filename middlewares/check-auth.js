@@ -13,6 +13,7 @@ module.exports = async function(req, res, next) {
 
             if (user) {
                 req.user_id = user._id;
+                console.log("Auth success")
                 next()
             } else {
                     res.status(404).json()

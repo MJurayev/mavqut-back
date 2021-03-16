@@ -27,7 +27,7 @@ module.exports.create = ( req,res ) => {
         let newRemnant = new Remnant({...secondaryUser, user_id: r._id })
         await newRemnant.save()
 
-        let newDaily = { user_id: r._id ,created_at: new Date(), bomdod: 0,peshin: 0,asr: 0,shom: 0,xufton: 0,vitr: 0, fasting: false };
+        let newDaily = { user_id: r._id ,created_at: new Date().toLocaleDateString(), bomdod: 0,peshin: 0,asr: 0,shom: 0,xufton: 0,vitr: 0, fasting: false };
 
         await (new Daily(newDaily)).save()
         

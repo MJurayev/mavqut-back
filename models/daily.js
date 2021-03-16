@@ -10,7 +10,7 @@ let DailySchema = mongoose.Schema({
     xufton: { type: Number },   
     vitr: { type: Number },   
     fasting: { type: Boolean }, // ro'za kunlari soni
-    created_at: { type: Date, required: true } 
+    created_at: { type: String, required: true } 
 })
 
 let Daily = mongoose.model('daily', DailySchema )

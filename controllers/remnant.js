@@ -1,7 +1,28 @@
 let Remnant = require("./../models/remnant")
+const Daily = require('../models/daily')
 let User = require("./../models/user")
-module.exports.create = ( req,res ) => {
-    res.send("post remnant")
+module.exports.create =async ( req,res ) => {
+    const searchDate = String(req.body.created_at).slice(0,10)
+    console.log(searchDate)
+    const daily  = await Daily.aggregate([{
+            $match:{
+                user_id:{$eq:req.user_id}
+            }
+        }
+    ])
+    console.log(daily)
+    // if(!daily){
+    //     const dailyNew =  new Daily(req.body)
+    //     const saved = await dailyNew.save()
+    //     if(saved)return res.send({success:true})
+    // }else{
+    //     console.log(daily)
+    //     console.log(req.body)
+    //     const updated =await Daily.findByIdAndUpdate(daily._id, req.body, {new:true})
+
+    //     if(updated)res.send({success:true})
+    // }
+    //     return res.send({success:false})
 }
 
 module.exports.getInfo = (req,res) => {

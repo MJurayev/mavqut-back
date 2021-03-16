@@ -21,8 +21,7 @@ module.exports.createDailyInfo = async ( req,res ) => { // kunlik roza malumotla
         vitr: body.vitr, 
         fasting: body.fasting // boolean
     }
-    await Daily.findOneAndUpdate(
-        { user_id: req.user_id, '$where': 'this.created_at.toJSON().slice(0, 10) == "'+ (new Date( body.created_at )).toJSON().slice(0,10) +'"' },
+    await Daily.findOneAndUpdate({ user_id: req.user_id, '$where': 'this.created_at.toJSON().slice(0, 10) == "'+ (new Date( body.created_at )).toJSON().slice(0,10) +'"' },
         { $set: mustChangeData },{ new: true }).then( async (r) => {
         let remnantChangeData = {
             bomdod: currentRemnantData.bomdod - (body.bomdod - currentData.bomdod ),

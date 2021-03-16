@@ -3,7 +3,7 @@ let controller = require("./../controllers/daily")
 const CheckAuth = require("./../middlewares/check-auth")
 
 router.route('/')
-    .post( CheckAuth, controller.createDailyInfo )
+    .post(  controller.createDailyInfo )
 
 router.route('/user/getAll')
     .get( CheckAuth, controller.getUserDailies )
